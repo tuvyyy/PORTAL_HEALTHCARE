@@ -1,0 +1,28 @@
+<div class="card p-3 shadow-sm">
+  <h5 class="mb-3 text-primary">📋 Hồ sơ khám</h5>
+
+  <% if (records && records.length > 0) { %>
+    <table class="table table-striped align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Ngày tạo</th>
+          <th>Bác sĩ</th>
+          <th>Tóm tắt</th>
+          <th>Chẩn đoán</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% records.forEach(r => { %>
+          <tr>
+            <td><%= new Date(r.CreatedAt).toLocaleDateString('vi-VN') %></td>
+            <td><%= r.DoctorName || '-' %></td>
+            <td><%= r.Summary || '-' %></td>
+            <td><%= r.Diagnosis || '-' %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <p class="text-muted">Chưa có hồ sơ khám nào.</p>
+  <% } %>
+</div>

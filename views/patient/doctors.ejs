@@ -1,0 +1,23 @@
+<%- include('layout', { title: 'Chọn bác sĩ', body: `
+<div class="card p-3">
+  <h5 class="mb-3">Chọn bác sĩ</h5>
+  <div class="row">
+    <% doctors.forEach(d => { %>
+      <div class="col-md-4 mb-3">
+        <div class="card p-3">
+          <h6><%= d.FullName %></h6>
+          <p class="mb-1"><span class="badge text-bg-info"><%= d.Specialty %></span></p>
+          <p class="mb-1 text-muted">Phòng: <%= d.Room || '-' %></p>
+          <form class="d-flex gap-2 align-items-end" method="get" action="/patient/doctors/<%= d.DoctorId %>/schedules">
+            <div>
+              <label class="form-label">Ngày</label>
+              <input type="date" name="date" class="form-control" required>
+            </div>
+            <button class="btn btn-sm btn-primary">Xem lịch</button>
+          </form>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+` }) %>

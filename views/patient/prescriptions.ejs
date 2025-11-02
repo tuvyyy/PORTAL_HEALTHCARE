@@ -1,0 +1,46 @@
+<!-- Nội dung bên trong layout chung -->
+<div class="container">
+  <h3 class="text-primary mb-4 text-center">💊 Danh sách toa thuốc của tôi</h3>
+
+  <% if (!prescriptions || prescriptions.length === 0) { %>
+    <div class="alert alert-warning text-center shadow-sm">
+      <b>Chưa có toa thuốc nào được hoàn tất.</b>
+    </div>
+  <% } else { %>
+    <table class="table table-bordered table-striped bg-white shadow-sm align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Bác sĩ kê toa</th>
+          <th>Chẩn đoán</th>
+          <th>Ngày kê</th>
+          <th>Trạng thái</th>
+          <th class="text-center">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% prescriptions.forEach((p, i) => { %>
+          <tr>
+            <td><%= i + 1 %></td>
+            <td><%= p.DoctorName %></td>
+            <td><%= p.Diagnosis || '—' %></td>
+            <td><%= p.CreatedAt ? new Date(p.CreatedAt).toISOString().split('T')[0] : '' %></td>
+            <td>
+              <% if (p.Status === 'done') { %>
+                <span class="badge bg-success">Hoàn tất</span>
+              <% } else { %>
+                <span class="badge bg-warning text-dark">Đang chờ</span>
+              <% } %>
+            </td>
+            <td class="text-center">
+              <a href="/patient/prescriptions/<%= p.PrescriptionId %>" 
+                 class="btn btn-sm btn-outline-primary">
+                👁️ Xem toa
+              </a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>

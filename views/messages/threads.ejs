@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+  <h3 class="text-primary text-center mb-4">💬 Danh sách hội thoại</h3>
+
+  <% if (threads.length === 0) { %>
+    <p class="text-center text-muted">Chưa có hội thoại nào</p>
+  <% } else { %>
+    <div class="list-group shadow-sm">
+      <% threads.forEach(t => { %>
+        <a href="/messages/<%= t.ThreadId %>" class="list-group-item list-group-item-action">
+          <% if (role === 'doctor') { %>
+            👩‍🦰 <%= t.PatientName %> — <%= t.Email %>
+          <% } else { %>
+            👨‍⚕️ <%= t.DoctorName %> — <%= t.Email %>
+          <% } %>
+          <small class="text-muted float-end"><%= t.LastMsgAt ? new Date(t.LastMsgAt).toLocaleString() : '' %></small>
+        </a>
+      <% }) %>
+    </div>
+  <% } %>
+</div>
+</body>
+</html>

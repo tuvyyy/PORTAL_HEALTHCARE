@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .filter-bar {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 25px;
+    }
+  </style>
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <h3 class="text-center text-primary mb-4">
+      👨‍⚕️ Danh sách lịch khám của bác sĩ <%= currentUser?.FullName || '' %>
+    </h3>
+
+    <!-- Bộ lọc -->
+    <form class="filter-bar d-flex justify-content-center align-items-center gap-3" method="GET" action="/doctor/appointments">
+      <div class="d-flex align-items-center gap-2">
+        <label class="form-label mb-0">Chọn ngày:</label>
+        <input type="date" class="form-control" name="date" value="<%= date || '' %>" style="width: 200px;">
+      </div>
+      <input type="hidden" name="filter" value="date">
+      <button class="btn btn-outline-primary">🔍 Lọc</button>
+      <a href="/doctor/appointments?filter=today" class="btn btn-outline-info">📆 Hôm nay</a>
+      <a href="/doctor/appointments?filter=all" class="btn btn-outline-secondary">📅 Tất cả</a>
+    </form>
+
+    <!-- Bảng danh sách -->
+    <table class="table table-bordered table-striped bg-white shadow-sm align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Bệnh nhân</th>
+          <th>Email</th>
+          <th>Ngày khám</th>
+          <th>Lý do</th>
+          <th>Trạng thái</th>
+          <th class="text-center">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (!appointments || appointments.length === 0) { %>
+          <tr>
+            <td colspan="7" class="text-center text-muted py-3">Không có lịch khám nào</td>
+          </tr>
+        <% } else { %>
+          <% appointments.forEach((a, i) => { %>
+            <tr>
+              <td><%= i + 1 %></td>
+              <td><%= a.PatientName %></td>
+              <td><%= a.PatientEmail %></td>
+              <td><%= a.ScheduleDate ? new Date(a.ScheduleDate).toISOString().split('T')[0] : '' %></td>
+              <td><%= a.Reason %></td>
+              <td>
+                <% if (a.Status === 'done') { %>
+                  <span class="badge bg-success">Hoàn tất</span>
+                <% } else if (a.Status === 'pending') { %>
+                  <span class="badge bg-warning text-dark">Đang chờ</span>
+                <% } else { %>
+                  <span class="badge bg-secondary"><%= a.Status %></span>
+                <% } %>
+              </td>
+              <td class="text-center">
+  <% if (a.RecordId) { %>
+    <!-- Nếu đã có hồ sơ khám -->
+    <a href="/doctor/record/edit/<%= a.RecordId %>" 
+       class="btn btn-sm btn-outline-warning mb-1">✏️ Sửa hồ sơ</a>
+
+    <a href="/doctor/prescription/new?recordId=<%= a.RecordId %>&date=<%= new Date(a.ScheduleDate).toISOString().split('T')[0] %>" 
+       class="btn btn-sm btn-outline-success mb-1">💊 Kê toa</a>
+
+    <% if (a.Status !== 'done') { %>
+      <form method="POST" action="/doctor/record/complete" class="d-inline">
+        <input type="hidden" name="recordId" value="<%= a.RecordId %>">
+        <button type="submit" class="btn btn-sm btn-success"
+                onclick="return confirm('Xác nhận hoàn thành hồ sơ này?')">
+          ✅ Hoàn thành
+        </button>
+      </form>
+    <% } %>
+
+  <% } else { %>
+    <!-- Nếu chưa có hồ sơ -->
+    <a href="/doctor/record/new?appointmentId=<%= a.AppointmentId %>&date=<%= new Date(a.ScheduleDate).toISOString().split('T')[0] %>"
+       class="btn btn-sm btn-outline-primary mb-1">🩺 Ghi hồ sơ</a>
+  <% } %>
+</td>
+
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

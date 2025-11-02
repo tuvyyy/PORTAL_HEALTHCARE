@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+  <h3 class="text-center text-success mb-4">🧾 Lịch khám của tôi</h3>
+
+  <table class="table table-bordered table-striped bg-white shadow-sm">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Bác sĩ</th>
+        <th>Ngày khám</th>
+        <th>Lý do</th>
+        <th>Trạng thái</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (appointments.length === 0) { %>
+        <tr><td colspan="5" class="text-center text-muted">Chưa có lịch khám</td></tr>
+      <% } else { %>
+        <% appointments.forEach((a, i) => { %>
+          <tr>
+            <td><%= i + 1 %></td>
+            <td><%= a.DoctorName %></td>
+            <td><%= a.ScheduleDate ? a.ScheduleDate.toISOString().split('T')[0] : '—' %></td>
+            <td><%= a.Reason %></td>
+            <td><%= a.Status %></td>
+          </tr>
+        <% }) %>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

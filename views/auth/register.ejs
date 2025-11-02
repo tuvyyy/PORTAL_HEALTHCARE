@@ -1,0 +1,29 @@
+<%- include('layout', { title: 'Đăng ký', body: `
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card p-4">
+      <h4 class="mb-3">Đăng ký</h4>
+      <% if (typeof error !== 'undefined') { %>
+        <div class="alert alert-danger"><%= error %></div>
+      <% } %>
+      <form method="post" action="/register">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Họ tên</label>
+            <input type="text" name="fullName" class="form-control" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" required>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Mật khẩu</label>
+          <input type="password" name="password" class="form-control" required minlength="6">
+        </div>
+        <button class="btn btn-success w-100">Tạo tài khoản</button>
+      </form>
+    </div>
+  </div>
+</div>
+` }) %>

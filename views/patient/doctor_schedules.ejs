@@ -1,0 +1,24 @@
+<%- include('layout', { title: 'Chọn lịch', body: `
+<div class="card p-3">
+  <h5 class="mb-3">Lịch của bác sĩ <%= doctor.FullName %> - <%= date %></h5>
+  <table class="table">
+    <thead><tr><th>Giờ</th><th>Tối đa</th><th></th></tr></thead>
+    <tbody>
+      <% schedules.forEach(s => { %>
+        <tr>
+          <td><%= s.SlotStart.slice(0,5) %> - <%= s.SlotEnd.slice(0,5) %></td>
+          <td><%= s.MaxPatients %></td>
+          <td>
+            <form method="post" action="/patient/appointments" class="d-inline">
+              <input type="hidden" name="doctorId" value="<%= doctor.DoctorId %>">
+              <input type="hidden" name="scheduleId" value="<%= s.ScheduleId %>">
+              <input type="hidden" name="reason" value="">
+              <button class="btn btn-sm btn-success">Đặt lịch</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+` }) %>

@@ -1,0 +1,52 @@
+<div class="card p-4 shadow-sm">
+  <h5 class="mb-3 text-primary">👤 Hồ sơ cá nhân</h5>
+
+  <form method="post" action="/patient/profile">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Họ tên</label>
+        <input 
+          type="text" 
+          name="FullName" 
+          value="<%= user?.FullName || '' %>" 
+          class="form-control" 
+          required
+        >
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Điện thoại</label>
+        <input 
+          type="text" 
+          name="Phone" 
+          value="<%= user?.Phone || '' %>" 
+          class="form-control"
+        >
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Giới tính</label>
+        <select name="Gender" class="form-select">
+          <option value="">-- Chọn giới tính --</option>
+          <option value="M" <%= user?.Gender === 'M' ? 'selected' : '' %>>Nam</option>
+          <option value="F" <%= user?.Gender === 'F' ? 'selected' : '' %>>Nữ</option>
+          <option value="Khác" <%= user?.Gender === 'Khác' ? 'selected' : '' %>>Khác</option>
+        </select>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Ngày sinh</label>
+        <input 
+          type="date" 
+          name="DOB" 
+          value="<%= user?.DOB ? new Date(user.DOB).toISOString().slice(0,10) : '' %>" 
+          class="form-control"
+        >
+      </div>
+    </div>
+
+    <div class="text-end">
+      <button class="btn btn-primary">💾 Lưu thay đổi</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title || 'Đăng nhập' %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <style>
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .bg-gradient-animation {
+      background: linear-gradient(-45deg, #a1c4fd, #c2e9fb, #f8e1f2, #a6c1ee);
+      background-size: 300% 300%;
+      animation: gradientShift 12s ease infinite;
+    }
+
+    /* Nền hạt Particles */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-gradient-animation relative overflow-hidden">
+  <!-- Hiệu ứng nền Particles -->
+  <div id="particles-js"></div>
+
+  <!-- Nội dung chính -->
+  <div class="relative z-10 flex w-full h-screen">
+    
+    <!-- Form đăng nhập -->
+    <div class="w-1/2 flex items-center justify-center p-10">
+      <div class="max-w-lg w-full bg-white bg-opacity-90 backdrop-blur-md rounded-2xl shadow-lg p-10 animate-fadeIn">
+        <!-- Logo + Tiêu đề -->
+        <!-- Logo dạng ngang -->
+<div class="flex items-center justify-center w-full gap-4 mb-8">
+  <!-- Icon SVG đẹp chuyên nghiệp -->
+<div class="w-20 h-20 rounded-full bg-white flex items-center justify-center shadow-lg border-2 border-sky-300">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-12 h-12">
+    <circle cx="32" cy="32" r="30" fill="url(#grad)" />
+    <rect x="28" y="16" width="8" height="32" rx="2" fill="white" />
+    <rect x="16" y="28" width="32" height="8" rx="2" fill="white" />
+    <defs>
+      <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#74C6E5"/>
+        <stop offset="100%" stop-color="#A6C1EE"/>
+      </linearGradient>
+    </defs>
+  </svg>
+</div>
+
+
+  <!-- Chữ logo -->
+  <div class="flex flex-col">
+    <h1 class="text-3xl font-bold text-gray-800 tracking-wide">
+      <span class="text-sky-600">Patient</span>
+      <span class="text-blue-500">Doctor</span>
+      <span class="text-gray-700">Portal</span>
+    </h1>
+    <p class="text-sm text-gray-500 mt-1 italic">
+      Kết nối bác sĩ và bệnh nhân
+    </p>
+  </div>
+</div>
+
+
+        <% if (typeof error !== 'undefined') { %>
+          <div class="mb-4 p-3 rounded-lg bg-red-100 text-red-700 text-center font-medium">
+            <%= error %>
+          </div>
+        <% } %>
+
+        <!-- Form -->
+        <form method="post" action="/login" class="space-y-5">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email đăng nhập"
+            class="w-full border rounded-lg p-3 text-base focus:outline-sky-400"
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Mật khẩu"
+            class="w-full border rounded-lg p-3 text-base focus:outline-sky-400"
+            required
+          />
+
+          <div class="flex justify-between text-sm">
+            <a href="/register" class="text-sky-600 hover:underline">Đăng ký tài khoản</a>
+            <a href="#" class="text-sky-600 hover:underline">Quên mật khẩu?</a>
+          </div>
+
+          <div>
+            <label class="block text-sm mb-1 font-medium">Ngôn ngữ / Language</label>
+            <select class="w-full border rounded-lg p-3 text-base">
+              <option>Tiếng Việt (Vietnamese)</option>
+              <option>English</option>
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-gradient-to-r from-sky-400 to-blue-500 text-white font-semibold py-3 rounded-lg text-lg hover:opacity-90 transition"
+          >
+            Đăng nhập
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Cột phải: Thông báo -->
+    <div class="w-1/2 bg-sky-100 bg-opacity-70 backdrop-blur-md flex flex-col h-screen animate-fadeIn">
+      <h2 class="text-center text-sky-700 text-xl font-bold pt-10 pb-4 tracking-wide">
+        THÔNG BÁO HẰNG NGÀY
+      </h2>
+
+      <div class="flex-1 bg-sky-50 rounded-t-2xl shadow-inner p-4 overflow-y-auto space-y-3">
+        <% if (typeof notifications !== 'undefined' && notifications.length > 0) { %>
+          <% notifications.forEach(item => { %>
+            <div
+              class="bg-white rounded-lg shadow-sm p-3 flex flex-col hover:bg-sky-100 cursor-pointer transition transform hover:scale-[1.02]"
+              onclick="alert('<%= item.content %>')"
+            >
+              <div class="flex justify-between items-center">
+                <span class="font-semibold text-gray-800"><%= item.title %></span>
+                <span class="text-sky-500 font-bold">&gt;</span>
+              </div>
+              <p class="text-gray-500 text-sm mt-1"><%= item.content %></p>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <p class="text-center text-gray-500 italic">
+            Chưa có thông báo nào
+          </p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script cấu hình Particles -->
+  <script>
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 50 },
+        color: { value: '#74C6E5' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.3 },
+        size: { value: 6, random: true },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: '#a1c4fd',
+          opacity: 0.2,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 1.2,
+          direction: 'none',
+          out_mode: 'out'
+        }
+      },
+      interactivity: {
+        events: {
+          onhover: { enable: true, mode: 'repulse' },
+          onclick: { enable: true, mode: 'push' }
+        },
+        modes: {
+          repulse: { distance: 80, duration: 0.4 },
+          push: { particles_nb: 3 }
+        }
+      },
+      retina_detect: true
+    });
+  </script>
+
+  <!-- Animation CSS -->
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 1s ease-out;
+    }
+  </style>
+</body>
+</html>
