@@ -1,5 +1,11 @@
 <div class="card p-3 shadow-sm">
-  <h5 class="mb-3 text-primary">🗓️ Lịch hẹn của tôi</h5>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="text-primary mb-0">🗓️ Lịch hẹn của tôi</h5>
+    <a href="/appointments/book" class="btn btn-primary btn-sm shadow-sm">
+      <i class="bi bi-plus-circle"></i> Đặt lịch mới
+    </a>
+  </div>
+
   <table class="table table-hover align-middle">
     <thead class="table-light">
       <tr>
@@ -16,13 +22,9 @@
             <td><%= a.DoctorName %></td>
             <td><%= a.Reason || '-' %></td>
             <td>
-              <span class="badge bg-secondary">
-                <%= a.Status %>
-              </span>
+              <span class="badge bg-secondary"><%= a.Status %></span>
             </td>
-            <td>
-              <%= new Date(a.BookedAt).toLocaleString('vi-VN') %>
-            </td>
+            <td><%= new Date(a.BookedAt).toLocaleString('vi-VN') %></td>
           </tr>
         <% }) %>
       <% } else { %>
